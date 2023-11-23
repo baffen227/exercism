@@ -7,17 +7,14 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let hours = if hours >= 0 { hours } else {
-            (hours % 24) + 24
-        };
-
-        let total_minutes = hours * 60 + minutes;
-        let hours = total_minutes / 60;
-        let minutes = total_minutes % 60;
+        // rounded in a day (24 * 60 = 1440 minutes)
+        let total = (hours * 60 + minutes) % 1440;
+        // start from today or yesterday
+        let total = if total >= 0 { total } else { 1440 + total };
 
         Clock {
-            hours: if hours >= 24 { hours % 24 } else { hours },
-            minutes,
+            hours: total / 60,
+            minutes: total % 60,
         }
     }
 
