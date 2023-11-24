@@ -10,10 +10,7 @@ impl Clock {
     const A_DAY_IN_MINUTES: i32 = 24 * 60;
 
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let total = (hours * 60 + minutes) % Self::A_DAY_IN_MINUTES;
-        // start from today or yesterday
-        let total = if total >= 0 { total } else { Self::A_DAY_IN_MINUTES + total };
-
+        let total = (hours * 60 + minutes).rem_euclid(Self::A_DAY_IN_MINUTES);
         Clock {
             hours: total / 60,
             minutes: total % 60,
