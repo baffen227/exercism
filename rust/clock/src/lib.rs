@@ -6,11 +6,12 @@ pub struct Clock {
 }
 
 impl Clock {
+    const A_DAY_IN_MINUTES: i32 = 24 * 60;
+
     pub fn new(hours: i32, minutes: i32) -> Self {
-        // rounded in a day (24 * 60 = 1440 minutes)
-        let total = (hours * 60 + minutes) % 1440;
+        let total = (hours * 60 + minutes) % Self::A_DAY_IN_MINUTES;
         // start from today or yesterday
-        let total = if total >= 0 { total } else { 1440 + total };
+        let total = if total >= 0 { total } else { Self::A_DAY_IN_MINUTES + total };
 
         Clock {
             hours: total / 60,
@@ -19,7 +20,7 @@ impl Clock {
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        todo!("Add {minutes} minutes to existing Clock time");
+        Self::new(self.hours, minutes+self.minutes)
     }
 }
 
