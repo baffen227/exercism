@@ -5,7 +5,7 @@ fn sort_by_graphmes(word: &str) -> String {
     let lowercase_word = word.to_lowercase();
     let mut graphemes = lowercase_word
         .graphemes(true).collect::<Vec<&str>>();
-    graphemes.sort();
+    graphemes.sort_unstable();
 	graphemes.join("")
 }
 
@@ -19,11 +19,11 @@ fn is_an_anagram_of(candidate: &str, target: &str) -> bool {
 }
 
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
-    let mut result: HashSet<&str> = HashSet::new();
+    let mut anagrams: HashSet<&str> = HashSet::new();
     for possible_anagram in possible_anagrams {
         if is_an_anagram_of(possible_anagram, word) {
-            result.insert(possible_anagram);
+            anagrams.insert(possible_anagram);
         }
     }
-    result
+    anagrams
 }
