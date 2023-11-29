@@ -29,13 +29,19 @@ pub struct Neptune;
 
 impl Planet for Mercury {
     fn years_during(d: &Duration) -> f64 {
-        // 1 Mercury year = 0.2408467 Earch years
+        // Mercury: orbital period 0.2408467 Earth years
         // 1 Earch year = 1 / 0.2408467 Mercury years
         (d.seconds as f64 / 31557600.0) / 0.2408467
     }
 }
 
-impl Planet for Venus {}
+impl Planet for Venus {
+    fn years_during(d: &Duration) -> f64 {
+        // Venus: orbital period 0.61519726 Earth years
+        // 1 Earch year = 1 / 0.61519726 Venus years
+        (d.seconds as f64 / 31557600.0) / 0.61519726
+    }
+}
 impl Planet for Earth {}
 impl Planet for Mars {}
 impl Planet for Jupiter {}
