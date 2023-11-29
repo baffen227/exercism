@@ -1,20 +1,27 @@
-// The code below is a stub. Just enough to satisfy the compiler.
-// In order to pass the tests you can add-to or change any of this code.
+const ORBITAL_PERIOD_OF_EARTH_IN_SECONDS: f64 = 31557600.0;
+const ORBITAL_PERIOD_OF_MERCURY_IN_EARTH_YEARS: f64 = 0.2408467;
+const ORBITAL_PERIOD_OF_VENUS_IN_EARTH_YEARS: f64 = 0.61519726;
+const ORBITAL_PERIOD_OF_MARS_IN_EARTH_YEARS: f64 = 1.8808158;
+const ORBITAL_PERIOD_OF_JUPITER_IN_EARTH_YEARS: f64 = 11.862615;
+const ORBITAL_PERIOD_OF_SATURN_IN_EARTH_YEARS: f64 = 29.447498;
+const ORBITAL_PERIOD_OF_URANUS_IN_EARTH_YEARS: f64 = 84.016846;
+const ORBITAL_PERIOD_OF_NEPTUNE_IN_EARTH_YEARS: f64 = 164.79132;
 
 #[derive(Debug)]
 pub struct Duration {
-    seconds: u64,
+    earth_years: f64,
 }
 
 impl From<u64> for Duration {
     fn from(s: u64) -> Self {
-        Self { seconds: s }
+        Self { earth_years: s as f64 / ORBITAL_PERIOD_OF_EARTH_IN_SECONDS }
     }
 }
 
 pub trait Planet {
+    // Default implementation for Earth
     fn years_during(d: &Duration) -> f64 {
-        d.seconds as f64 / 31557600.0
+        d.earth_years
     }
 }
 
@@ -29,17 +36,13 @@ pub struct Neptune;
 
 impl Planet for Mercury {
     fn years_during(d: &Duration) -> f64 {
-        // Mercury: orbital period 0.2408467 Earth years
-        // 1 Earch year = 1 / 0.2408467 Mercury years
-        (d.seconds as f64 / 31557600.0) / 0.2408467
+        d.earth_years / ORBITAL_PERIOD_OF_MERCURY_IN_EARTH_YEARS
     }
 }
 
 impl Planet for Venus {
     fn years_during(d: &Duration) -> f64 {
-        // Venus: orbital period 0.61519726 Earth years
-        // 1 Earch year = 1 / 0.61519726 Venus years
-        (d.seconds as f64 / 31557600.0) / 0.61519726
+        d.earth_years / ORBITAL_PERIOD_OF_VENUS_IN_EARTH_YEARS
     }
 }
 
@@ -47,36 +50,30 @@ impl Planet for Earth {}
 
 impl Planet for Mars {
     fn years_during(d: &Duration) -> f64 {
-        // Mars: orbital period 1.8808158 Earth years
-        // 1 Earth year = 1 / 1.8808158
-        (d.seconds as f64 / 31557600.0) / 1.8808158
+        d.earth_years / ORBITAL_PERIOD_OF_MARS_IN_EARTH_YEARS
     }
 }
 
 impl Planet for Jupiter {
     fn years_during(d: &Duration) -> f64 {
-        // Jupiter: orbital period 11.862615 Earth years
-        (d.seconds as f64 / 31557600.0) / 11.862615
+        d.earth_years / ORBITAL_PERIOD_OF_JUPITER_IN_EARTH_YEARS
     }
 }
 
 impl Planet for Saturn {
     fn years_during(d: &Duration) -> f64 {
-        // Saturn: orbital period 29.447498 Earth years
-        (d.seconds as f64 / 31557600.0) / 29.447498
+        d.earth_years / ORBITAL_PERIOD_OF_SATURN_IN_EARTH_YEARS
     }
 }
 
 impl Planet for Uranus {
     fn years_during(d: &Duration) -> f64 {
-        // Uranus: orbital period 84.016846 Earth years
-        (d.seconds as f64 / 31557600.0) / 84.016846
+        d.earth_years / ORBITAL_PERIOD_OF_URANUS_IN_EARTH_YEARS
     }
 }
 
 impl Planet for Neptune {
     fn years_during(d: &Duration) -> f64 {
-        // Neptune: orbital period 164.79132 Earth years
-        (d.seconds as f64 / 31557600.0) / 164.79132
+        d.earth_years / ORBITAL_PERIOD_OF_NEPTUNE_IN_EARTH_YEARS
     }
 }
