@@ -36,32 +36,31 @@ fn verify(minefield: &[&str]) -> RawMinefieldStatus {
 	} else if minefield[0].is_empty() {
 		RawMinefieldStatus::NoColumns
 	} else {
-		let column_num = minefield[0].len();
-		if minefield
+		let col_num = minefield[0].len();
+		let all_col_num_are_the_same = minefield
 			.iter()
-			.any(|s| s.len() != column_num)
-		{
+			.any(|s| s.len() != col_num);
+
+		if all_col_num_are_the_same {
 			RawMinefieldStatus::Invalid
 		} else {
 			let mut field_map = FieldMap::new();
-			for (idx, c) in minefield
+			minefield
 				.iter()
 				.flat_map(|s| s.chars())
 				.enumerate()
-			{
-				let i = (idx / column_num) as i8;
-				let j = (idx % column_num) as i8;
-				field_map.insert(
-					SquareCoordinate {
-						row_idx: i,
-						col_idx: j,
-					},
-					c,
-				);
-			}
+				.for_each(|(idx, c)| {
+					field_map.insert(
+						SquareCoordinate {
+							row_idx: (idx / col_num) as i8,
+							col_idx: (idx % col_num) as i8,
+						},
+						c,
+					);
+				});
 			RawMinefieldStatus::Valid(MinefieldMap {
 				row_num: row_num as i8,
-				col_num: column_num as i8,
+				col_num: col_num as i8,
 				field_map,
 			})
 		}
