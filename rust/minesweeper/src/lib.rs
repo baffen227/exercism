@@ -6,26 +6,26 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 		field_map: HashMap<(u8, u8), char>,
 	}
 
-	enum InitialStatus {
+	enum RawMinefieldStatus {
 		NoRows,
 		NoColumns,
 		Invalid,
 		Valid(MinefieldMap),
 	}
 
-	fn verify(minefield: &[&str]) -> InitialStatus {
+	fn verify(minefield: &[&str]) -> RawMinefieldStatus {
 		let row_num = minefield.len();
 		if row_num == 0 {
-			InitialStatus::NoRows
+			RawMinefieldStatus::NoRows
 		} else if minefield[0].is_empty() {
-			InitialStatus::NoColumns
+			RawMinefieldStatus::NoColumns
 		} else {
 			let column_num = minefield[0].len();
 			if minefield
 				.iter()
 				.any(|s| s.len() != column_num)
 			{
-				InitialStatus::Invalid
+				RawMinefieldStatus::Invalid
 			} else {
 				let mut field_map = HashMap::<(u8, u8), char>::new();
 				for (idx, c) in minefield
@@ -37,7 +37,7 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 					let j = (idx % column_num) as u8;
 					field_map.insert((i, j), c);
 				}
-				InitialStatus::Valid(MinefieldMap {
+				RawMinefieldStatus::Valid(MinefieldMap {
 					row_num: row_num as u8,
 					column_num: column_num as u8,
 					field_map,
@@ -46,12 +46,16 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 		}
 	}
 
-	fn do_annotate(minefield_map: MinefieldMap) -> Vec<String> {}
+	impl MinefieldMap {
+		fn do_annotate(&mut self) -> Vec<String> {
+			let mut annotated_map = HashMap::<(u8, u8), char>::new();
+		}
+	}
 
 	match verify(minefield) {
-		InitialStatus::NoRows => Vec::new(),
-		InitialStatus::NoColumns => vec!["".to_string()],
-		InitialStatus::Invalid => Vec::new(),
-		InitialStatus::Valid(minefield_map) => do_annotate(minefield_map),
+		RawMinefieldStatus::NoRows => Vec::new(),
+		RawMinefieldStatus::NoColumns => vec!["".to_string()],
+		RawMinefieldStatus::Invalid => Vec::new(),
+		RawMinefieldStatus::Valid(map) => map.do_annotate(),
 	}
 }
