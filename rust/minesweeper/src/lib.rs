@@ -7,21 +7,6 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 	}
 }
 
-use std::collections::HashMap;
-
-#[derive(Eq, Hash, PartialEq, Clone)]
-struct SquareCoordinate {
-	row_idx: i8,
-	col_idx: i8,
-}
-
-type FieldMap = HashMap<SquareCoordinate, char>;
-struct MinefieldMap {
-	row_num: i8,
-	col_num: i8,
-	field_map: FieldMap,
-}
-
 enum RawMinefieldStatus {
 	NoRows,
 	NoColumns,
@@ -37,15 +22,30 @@ fn verify(minefield: &[&str]) -> RawMinefieldStatus {
 		RawMinefieldStatus::NoColumns
 	} else {
 		let col_num = minefield[0].len();
-		let all_col_num_are_the_same = minefield
+		let all_row_len_are_the_same = minefield
 			.iter()
 			.all(|s| s.len() == col_num);
-		if all_col_num_are_the_same {
+		if all_row_len_are_the_same {
 			RawMinefieldStatus::Valid(MinefieldMap::new(minefield))
 		} else {
 			RawMinefieldStatus::Invalid
 		}
 	}
+}
+
+use std::collections::HashMap;
+
+#[derive(Eq, Hash, PartialEq, Clone)]
+struct SquareCoordinate {
+	row_idx: i8,
+	col_idx: i8,
+}
+
+type FieldMap = HashMap<SquareCoordinate, char>;
+struct MinefieldMap {
+	row_num: i8,
+	col_num: i8,
+	field_map: FieldMap,
 }
 
 impl MinefieldMap {
