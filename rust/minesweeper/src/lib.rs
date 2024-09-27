@@ -39,35 +39,42 @@ fn verify(minefield: &[&str]) -> RawMinefieldStatus {
 		let col_num = minefield[0].len();
 		let all_col_num_are_the_same = minefield
 			.iter()
-			.any(|s| s.len() != col_num);
-
+			.all(|s| s.len() == col_num);
 		if all_col_num_are_the_same {
-			RawMinefieldStatus::Invalid
+			RawMinefieldStatus::Valid(MinefieldMap::new(minefield))
 		} else {
-			let mut field_map = FieldMap::new();
-			minefield
-				.iter()
-				.flat_map(|s| s.chars())
-				.enumerate()
-				.for_each(|(idx, c)| {
-					field_map.insert(
-						SquareCoordinate {
-							row_idx: (idx / col_num) as i8,
-							col_idx: (idx % col_num) as i8,
-						},
-						c,
-					);
-				});
-			RawMinefieldStatus::Valid(MinefieldMap {
-				row_num: row_num as i8,
-				col_num: col_num as i8,
-				field_map,
-			})
+			RawMinefieldStatus::Invalid
 		}
 	}
 }
 
 impl MinefieldMap {
+	fn new(minefield: &[&str]) -> Self {
+		let row_num = minefield.len();
+		let col_num = minefield[0].len();
+
+		let mut field_map = FieldMap::new();
+		minefield
+			.iter()
+			.flat_map(|s| s.chars())
+			.enumerate()
+			.for_each(|(idx, c)| {
+				field_map.insert(
+					SquareCoordinate {
+						row_idx: (idx / col_num) as i8,
+						col_idx: (idx % col_num) as i8,
+					},
+					c,
+				);
+			});
+
+		Self {
+			row_num: row_num as i8,
+			col_num: col_num as i8,
+			field_map,
+		}
+	}
+
 	fn do_annotate(self) -> Vec<String> {
 		let mut annotated_field_map = self.field_map.clone();
 
