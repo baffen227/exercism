@@ -43,8 +43,8 @@ struct SquareCoordinate {
 
 type FieldMap = HashMap<SquareCoordinate, char>;
 struct MinefieldMap {
-	row_num: i8,
-	col_num: i8,
+	total_row_cnt: i8,
+	total_col_cnt: i8,
 	field_map: FieldMap,
 }
 
@@ -69,8 +69,8 @@ impl MinefieldMap {
 			});
 
 		Self {
-			row_num: row_num as i8,
-			col_num: col_num as i8,
+			total_row_cnt: row_num as i8,
+			total_col_cnt: col_num as i8,
 			field_map,
 		}
 	}
@@ -114,9 +114,9 @@ impl MinefieldMap {
 
 		// transform annotated_field_map into Vec<String>
 		let mut annotated_res: Vec<String> = vec![];
-		for row_idx in 0..self.row_num {
+		for row_idx in 0..self.total_row_cnt {
 			let mut s = String::new();
-			for col_idx in 0..self.col_num {
+			for col_idx in 0..self.total_col_cnt {
 				if let Some(c) = annotated_field_map.get(&SquareCoordinate { row_idx, col_idx }) {
 					s.push(*c);
 				}
