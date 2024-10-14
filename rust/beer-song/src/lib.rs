@@ -29,14 +29,14 @@ pub fn verse(n: u32) -> String {
 }
 
 pub fn sing(start: u32, end: u32) -> String {
-	let iter = (end..=start).rev().map(|n| {
-		if n != end {
-			verse(n) + "\n\n"
-		} else {
-			verse(n)
-		}
-	});
-	let mut res = String::new();
-	res.extend(iter);
-	res
+	(end..=start)
+		.rev()
+		.map(|n| {
+			if n != end {
+				verse(n) + "\n\n"
+			} else {
+				verse(n)
+			}
+		})
+		.fold(String::new(), |res, verse| res + &verse)
 }
