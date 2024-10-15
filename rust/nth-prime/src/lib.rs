@@ -1,9 +1,12 @@
+// https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+
 use lazy_static::lazy_static;
 
 lazy_static! {
 	static ref primes: Vec<u32> = {
 		const MAX_SIZE: usize = 1000005;
 		let mut is_prime = [true; MAX_SIZE];
+
 		let mut p = 2;
 		while p * p < MAX_SIZE {
 			if is_prime[p] {
