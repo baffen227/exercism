@@ -1,13 +1,21 @@
 pub fn reply(message: &str) -> &str {
 	let message = message.trim();
-	if message.ends_with("?") {
-		"Sure."
-	} else if message.is_empty()
+	if message.is_empty()
 		|| message
 			.chars()
 			.all(|c| c.is_ascii_whitespace())
 	{
 		"Fine. Be that way!"
+	} else if message
+		.chars()
+		.filter(|c| (*c).is_alphanumeric())
+		.count() == 0
+	{
+		if message.ends_with("?") {
+			"Sure."
+		} else {
+			"Whatever."
+		}
 	} else if message
 		.chars()
 		.filter(|c| (*c).is_alphanumeric())
@@ -18,6 +26,8 @@ pub fn reply(message: &str) -> &str {
 		} else {
 			"Whoa, chill out!"
 		}
+	} else if message.ends_with("?") {
+		"Sure."
 	} else {
 		"Whatever."
 	}
