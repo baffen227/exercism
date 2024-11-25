@@ -8,8 +8,9 @@ pub fn reply(message: &str) -> &str {
 		"Fine. Be that way!"
 	} else if message
 		.chars()
-		.filter(|c| (*c).is_alphanumeric())
-		.count() == 0
+		.filter(|c| (*c).is_alphabetic())
+		.count()
+		== 0
 	{
 		if message.ends_with("?") {
 			"Sure."
@@ -18,7 +19,7 @@ pub fn reply(message: &str) -> &str {
 		}
 	} else if message
 		.chars()
-		.filter(|c| (*c).is_alphanumeric())
+		.filter(|c| (*c).is_alphabetic())
 		.all(char::is_uppercase)
 	{
 		if message.ends_with("?") {
