@@ -27,6 +27,7 @@ impl HighScores {
 	}
 
 	pub fn personal_top_three(&self) -> Vec<u32> {
+		// TODO: use peek()
 		let result = self.heap.clone().into_vec();
 		match result.len() {
 			0..=2 => result,
