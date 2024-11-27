@@ -7,10 +7,38 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 		if c == '{' || c == '[' || c == '(' {
 			stack.push(c);
 		}
+		if (c == '}' || c == ']' || c == ')') && stack.is_empty() {
+			return false;
+		}
 		if c == '}' {
-			// if stack is empty, return false
-			// if stack is not empty, check if stack.last is '{',
-			//
+			// if stack is not empty,
+			//     if stack.last is not '{', then return false.
+			//     if stack.last is '{', then stack.pop().
+			if stack.last().copied().unwrap() == '{' {
+				stack.pop();
+			} else {
+				return false;
+			}
+		}
+		if c == ']' {
+			// if stack is not empty,
+			//     if stack.last is not '[', then return false.
+			//     if stack.last is '[', then stack.pop().
+			if stack.last().copied().unwrap() == '[' {
+				stack.pop();
+			} else {
+				return false;
+			}
+		}
+		if c == ')' {
+			// if stack is not empty,
+			//     if stack.last is not '(', then return false.
+			//     if stack.last is '(', then stack.pop().
+			if stack.last().copied().unwrap() == '(' {
+				stack.pop();
+			} else {
+				return false;
+			}
 		}
 	}
 	stack.is_empty()
