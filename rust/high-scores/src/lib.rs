@@ -27,11 +27,25 @@ impl HighScores {
 	}
 
 	pub fn personal_top_three(&self) -> Vec<u32> {
-		// TODO: use peek()
-		let result = self.heap.clone().into_vec();
-		match result.len() {
-			0..=2 => result,
-			_ => result[0..=2].to_vec(),
+		let mut result: Vec<u32> = Vec::new();
+		let mut heap2 = self.heap.clone();
+		match self.heap.len() {
+			0 => result,
+			1 => {
+				result.push(heap2.peek().copied().unwrap());
+				result
+			}
+			2 => {
+				result.push(heap2.pop().unwrap());
+				result.push(heap2.pop().unwrap());
+				result
+			}
+			_ => {
+				result.push(heap2.pop().unwrap());
+				result.push(heap2.pop().unwrap());
+				result.push(heap2.pop().unwrap());
+				result
+			}
 		}
 	}
 }
