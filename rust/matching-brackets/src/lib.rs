@@ -1,10 +1,9 @@
 use std::collections::HashMap;
 
 pub fn brackets_are_balanced(string: &str) -> bool {
-	// Map key is right bracket, and map value is corresponding left bracket.
+	// HashMap keys are right brackets, and values are corresponding left brackets.
 	let brackets_map = HashMap::from([('}', '{'), (']', '['), (')', '(')]);
 
-	// Make use of the FILO feature of stack, the last element is top of the stack.
 	let mut stack: Vec<char> = Vec::new();
 
 	for c in string.chars() {
@@ -17,7 +16,7 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 		}
 
 		// if c is right bracket,
-		//   if stack is not empty, and top of stack is corresponding left bracket of c,
+		//   if stack is not empty, and the top is the corresponding left bracket of c,
 		//     stack.pop()
 		//   else
 		//     return false
@@ -25,7 +24,7 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 			.keys()
 			.any(|&v| v == c)
 		{
-			if !stack.is_empty() && stack.last().copied().unwrap() == brackets_map[&c] {
+			if !stack.is_empty() && (stack.last() == brackets_map.get(&c)) {
 				stack.pop();
 			} else {
 				return false;
