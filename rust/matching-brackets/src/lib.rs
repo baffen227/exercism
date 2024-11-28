@@ -10,7 +10,7 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 		// if c is left bracket, then just stack.push(c).
 		if brackets_map
 			.values()
-			.any(|&k| k == c)
+			.any(|&left_bracket| left_bracket == c)
 		{
 			stack.push(c);
 		}
@@ -22,7 +22,7 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 		//     return false
 		if brackets_map
 			.keys()
-			.any(|&v| v == c)
+			.any(|&right_bracket| right_bracket == c)
 		{
 			if !stack.is_empty() && (stack.last() == brackets_map.get(&c)) {
 				stack.pop();
