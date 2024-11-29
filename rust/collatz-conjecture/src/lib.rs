@@ -1,19 +1,21 @@
-pub fn collatz(n: u64) -> Option<u64> {
-	let mut i: u64 = n;
-	let mut cnt: u64 = 0;
+use std::iter::successors;
 
-	if i == 0 {
+pub fn collatz(n: u64) -> Option<u64> {
+	if n == 0 {
 		return None;
 	}
 
-	while i > 1 {
-		if i % 2 == 0 {
-			i /= 2;
+	let cnt = successors(Some(n), |i| {
+		if *i == 1 {
+			None
+		} else if *i % 2 == 0 {
+			Some(*i / 2)
 		} else {
-			i = i * 3 + 1;
+			Some(*i * 3 + 1)
 		}
-		cnt += 1;
-	}
+	})
+	.count();
 
-	Some(cnt)
+	// `cnt` includes number `1`.
+	Some((cnt - 1) as u64)
 }
