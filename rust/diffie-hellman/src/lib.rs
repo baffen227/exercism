@@ -5,6 +5,8 @@ pub fn private_key(p: u64) -> u64 {
 
 /// Calculate public key using prime numbers {p} and {g}, and private key {a}
 pub fn public_key(p: u64, g: u64, a: u64) -> u64 {
+	// TODO: use num_bigint::modpow instead
+	// https://docs.rs/num-bigint/0.4.6/num_bigint/struct.BigUint.html#method.modpow
 	g.pow(a as u32) % p
 }
 
